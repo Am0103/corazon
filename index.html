@@ -3,43 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corazón CSS</title>
+    <title>Corazón de tu ángel</title>
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #f7f7f7;
+            background: linear-gradient(to bottom, #111, #333);
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 0 0 10px red;
+        }
+
+        p {
+            font-size: 20px;
+            margin-top: 20px;
+            max-width: 400px;
         }
 
         .heart {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             position: relative;
             background: red;
             transform: rotate(-45deg);
             animation: beat 0.8s infinite ease-in-out;
             border-radius: 20px;
+            box-shadow: 0 0 20px red;
         }
 
         .heart::before,
         .heart::after {
             content: "";
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             background: red;
             position: absolute;
             border-radius: 50%;
         }
 
         .heart::before {
-            top: -60px;
+            top: -70px;
             left: 0;
         }
 
         .heart::after {
-            left: 60px;
+            left: 70px;
             top: 0;
         }
 
@@ -52,7 +69,16 @@
 </head>
 <body>
 
+    <h1>💖 Corazón de tu ángel 💖</h1>
+
     <div class="heart"></div>
+
+    <p>
+        Este corazón late por ti…  
+        porque eres especial,  
+        porque te pienso,  
+        porque eres mi razón bonita del día.
+    </p>
 
 </body>
 </html>
