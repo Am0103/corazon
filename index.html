@@ -1,387 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Corazón Glossy  — Mejorado</title>
-<style>
-  :root{
-    --bg1:#111216;
-    --bg2:#2a2a2f;
-    --accent:#ff2d55;
-    --accent-dark:#b3002b;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corazón CSS</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f7f7f7;
+        }
 
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: radial-gradient(1200px 600px at 15% 10%, rgba(255,30,120,0.06), transparent),
-                linear-gradient(180deg,var(--bg1), #121217 60%, #0e0e10);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  }
+        .heart {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            background: red;
+            transform: rotate(-45deg);
+            animation: beat 0.8s infinite ease-in-out;
+            border-radius: 20px;
+        }
 
-  /* Layout */
-  .stage{
-    width: min(920px, 94vw);
-    height: min(740px, 86vh);
-    position: relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    perspective:1200px;
-  }
+        .heart::before,
+        .heart::after {
+            content: "";
+            width: 120px;
+            height: 120px;
+            background: red;
+            position: absolute;
+            border-radius: 50%;
+        }
 
-  /* soft backdrop texture using your generated image (optional) */
-  .backdrop {
-    position:absolute;
-    inset:0;
-    background: radial-gradient( circle at 30% 20%, rgba(255,40,120,0.04), transparent 5%),
-                radial-gradient(circle at 80% 80%, rgba(30,150,255,0.03), transparent 10%);
-    z-index:0;
-    pointer-events:none;
-  }
+        .heart::before {
+            top: -60px;
+            left: 0;
+        }
 
-  /* show the generated image faintly as texture - optional */
-  .texture {
-    position:absolute;
-    inset:0;
-    background-image: url('/mnt/data/Create_a_highly_polished,_glossy_red_heart_icon_wi.png');
-    background-size: cover;
-    background-position:center;
-    opacity:0.06; /* subtle */
-    filter: blur(6px) saturate(0.8);
-    z-index:0;
-    pointer-events:none;
-  }
+        .heart::after {
+            left: 60px;
+            top: 0;
+        }
 
-  /* Center card that holds the heart */
-  .card{
-    width: 760px;
-    max-width: 94%;
-    height:620px;
-    border-radius:20px;
-    display:grid;
-    place-items:center;
-    position:relative;
-    z-index:10;
-    transform-style:preserve-3d;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
-    box-shadow:
-      0 10px 40px rgba(0,0,0,0.7),
-      inset 0 1px 0 rgba(255,255,255,0.02);
-    overflow:visible;
-  }
-
-  /* Glossy heart container */
-  .heart-wrap{
-    width: 420px;
-    height:420px;
-    display:grid;
-    place-items:center;
-    transform-style:preserve-3d;
-    cursor:pointer;
-  }
-
-  /* Floating & subtle 3D */
-  .heart-wrap {
-    animation: float3 6s ease-in-out infinite;
-  }
-  @keyframes float3 {
-    0%{ transform: translateZ(0) translateY(0) rotateX(0) }
-    50%{ transform: translateZ(20px) translateY(-10px) rotateX(1deg) }
-    100%{ transform: translateZ(0) translateY(0) rotateX(0) }
-  }
-
-  /* SVG heart styles */
-  svg.heart-svg{
-    width:100%;
-    height:100%;
-    display:block;
-    transform: translateZ(40px) rotateX(2deg);
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
-  }
-
-  /* highlight gloss overlay for more shine */
-  .gloss {
-    mix-blend-mode: screen;
-    opacity:0.95;
-  }
-
-  /* rim/neon glow */
-  .rim {
-    filter: drop-shadow(0 6px 18px rgba(255,80,110,0.18)) drop-shadow(0 0 36px rgba(255,60,120,0.12));
-  }
-
-  /* small label under heart */
-  .label{
-    position:absolute;
-    bottom:28px;
-    text-align:center;
-    font-weight:700;
-    letter-spacing:0.6px;
-    color:rgba(255,255,255,0.9);
-    text-shadow: 0 6px 20px rgba(0,0,0,0.6);
-    font-size:1.05rem;
-    z-index:30;
-  }
-
-  /* pulse animation invoked via JS or :active */
-  .pulse {
-    animation: heartPulse 560ms cubic-bezier(.2,.9,.3,1);
-  }
-  @keyframes heartPulse {
-    0% { transform: scale(1) translateZ(0) }
-    30% { transform: scale(1.18) translateZ(40px) }
-    60% { transform: scale(0.96) translateZ(10px) }
-    100% { transform: scale(1) translateZ(0) }
-  }
-
-  /* tiny heart particles */
-  .particle{
-    position:fixed;
-    pointer-events:none;
-    z-index:9999;
-    will-change: transform, opacity;
-    font-size: 18px;
-    opacity:0;
-    transform-origin:center;
-    text-shadow: 0 4px 18px rgba(0,0,0,0.55);
-  }
-
-  /* custom cursor */
-  .custom-cursor {
-    position:fixed;
-    width:26px;
-    height:26px;
-    border-radius:50%;
-    background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.95), rgba(255,255,255,0.5) 10%, transparent 40%);
-    box-shadow: 0 0 10px rgba(255,50,110,0.2);
-    transform: translate(-50%,-50%) scale(0.9);
-    pointer-events:none;
-    z-index:99999;
-    mix-blend-mode: screen;
-  }
-
-  /* responsive adjustments */
-  @media (max-width:640px){
-    .card{ height:86vh; border-radius:16px}
-    .heart-wrap{ width:320px; height:320px }
-    .label{ font-size:0.95rem }
-  }
-</style>
+        @keyframes beat {
+            0% { transform: scale(1) rotate(-45deg); }
+            50% { transform: scale(1.2) rotate(-45deg); }
+            100% { transform: scale(1) rotate(-45deg); }
+        }
+    </style>
 </head>
 <body>
-  <div class="stage" aria-hidden="false">
-    <div class="texture" aria-hidden="true"></div>
-    <div class="backdrop" aria-hidden="true"></div>
 
-    <div class="card" role="region" aria-label="Corazón brillante">
-      <div class="heart-wrap" id="heartWrap" title="Haz clic para enviar amor">
-        <!-- SVG heart: multiple layers for main color, glossy highlight, rim and inner shine -->
-        <svg class="heart-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="false" role="img">
-          <defs>
-            <!-- main gradient -->
-            <linearGradient id="gMain" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#ff6b81"/>
-              <stop offset="35%" stop-color="#ff2d55"/>
-              <stop offset="70%" stop-color="#c3103b"/>
-              <stop offset="100%" stop-color="#8b0024"/>
-            </linearGradient>
+    <div class="heart"></div>
 
-            <!-- glossy overlay -->
-            <linearGradient id="gGloss" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="rgba(255,255,255,0.95)"/>
-              <stop offset="30%" stop-color="rgba(255,255,255,0.65)"/>
-              <stop offset="60%" stop-color="rgba(255,255,255,0.12)"/>
-              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-            </linearGradient>
-
-            <!-- inner highlight -->
-            <radialGradient id="gInner" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="rgba(255,200,200,0.9)"/>
-              <stop offset="40%" stop-color="rgba(255,140,150,0.55)"/>
-              <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-            </radialGradient>
-
-            <!-- rim gradient for neon-ish edge -->
-            <linearGradient id="gRim" x1="0" x2="1">
-              <stop offset="0%" stop-color="#fff2" />
-              <stop offset="30%" stop-color="#ff6b9d7a" />
-              <stop offset="100%" stop-color="#4ad3ff22" />
-            </linearGradient>
-
-            <!-- subtle bevel filter -->
-            <filter id="bevel" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
-              <feOffset in="blur" dx="0" dy="6" result="offsetBlur"/>
-              <feSpecularLighting in="blur" surfaceScale="6" specularConstant="0.7" specularExponent="20" lighting-color="#fff" result="spec">
-                <fePointLight x="-200" y="-200" z="400"/>
-              </feSpecularLighting>
-              <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut"/>
-              <feMerge>
-                <feMergeNode in="offsetBlur"/>
-                <feMergeNode in="specOut"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-
-            <!-- soft inner shadow -->
-            <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
-              <feComponentTransfer in="SourceAlpha">
-                <feFuncA type="table" tableValues="1 0"/>
-              </feComponentTransfer>
-              <feGaussianBlur stdDeviation="6"/>
-              <feOffset dx="0" dy="6" result="offsetblur"/>
-              <feComposite operator="out" in2="SourceAlpha"/>
-              <feColorMatrix type="matrix" values="0 0 0 0 0
-                                                    0 0 0 0 0
-                                                    0 0 0 0 0
-                                                    0 0 0 0.6"/>
-              <feBlend mode="multiply"/>
-            </filter>
-
-            <!-- small glossy shine path for top-left -->
-            <linearGradient id="shine" x1="0" x2="1">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Outer rim to mimic bevel + neon edge -->
-          <path class="rim" d="M256 472c-4.2 0-8.3-.6-12.3-1.8-28.2-7.9-111.8-36.4-161.6-122.3C35.8 245 194 108 256 56c62 52 220 189 173.9 291.9-49.8 85.9-133.4 114.4-161.6 122.3-4.0 1.2-8.1 1.8-12.3 1.8z"
-            fill="url(#gRim)" opacity="0.85" transform="translate(0,0) scale(0.98)"/>
-
-          <!-- base heart -->
-          <path d="M256 472c-4.2 0-8.3-.6-12.3-1.8-28.2-7.9-111.8-36.4-161.6-122.3C35.8 245 194 108 256 56c62 52 220 189 173.9 291.9-49.8 85.9-133.4 114.4-161.6 122.3-4.0 1.2-8.1 1.8-12.3 1.8z"
-            fill="url(#gMain)" filter="url(#bevel)"/>
-
-          <!-- inner subtle color -->
-          <path d="M256 432c-3.2 0-6.4-.4-9.4-1.2-21.6-6-85.4-26.3-123.5-88.6C67.8 240.6 199.6 132.9 256 94c56.6 38.9 188.2 146.6 132.8 248.1-38.1 62.3-101.9 82.6-123.5 88.6-3.0 .8-6.2 1.2-9.3 1.2z"
-            fill="url(#gInner)" opacity="0.28" />
-
-          <!-- glossy white highlight top-left -->
-          <path d="M150 140c40-46 102-36 140-12 12 7 36 28 56 50 18 20 34 44 36 68 2 22-6 44-24 64-26 29-68 46-108 48-42 2-84-12-118-40-26-22-40-52-36-90 4-44 36-86 74-96z"
-            fill="url(#gGloss)" class="gloss" opacity="0.95" />
-
-          <!-- small top-right reflection arc -->
-          <path d="M334 80c18 6 36 20 46 36 8 14 10 30 4 44-6 14-20 24-36 30-36 12-74 8-106-8-14-8-30-22-40-36 36-40 82-64 138-66z"
-            fill="rgba(255,255,255,0.18)" opacity="0.9"/>
-
-          <!-- two inner glossy streaks for "liquid" surface -->
-          <path d="M120 260c46-40 140-42 220-28 18 2 40 6 62 14 0 0-26-4-62 2-70 12-160 34-220 12z"
-            fill="rgba(255,255,255,0.06)" />
-
-          <path d="M120 220c40-36 140-30 200-18 0 0-40-12-82 0-56 16-108 36-118 18z"
-            fill="rgba(255,255,255,0.08)" opacity="0.9"/>
-
-          <!-- top-left carved glossy crescent -->
-          <path d="M178 100c22-20 80-32 130-6 0 0-40-8-86 4-46 12-58 30-44 34 14 4 30-8 44-18 8-6 10-8-44-14z"
-            fill="rgba(255,255,255,0.6)" opacity="0.28" />
-
-          <!-- gentle inner shadow for depth -->
-          <rect x="0" y="0" width="512" height="512" fill="transparent" filter="url(#innerShadow)" />
-
-        </svg>
-      </div>
-
-      <div class="label">💖 Para ti — Haz clic</div>
-    </div>
-  </div>
-
-  <div class="custom-cursor" id="cursor"></div>
-
-<script>
-  (function(){
-    const heartWrap = document.getElementById('heartWrap');
-    const cursor = document.getElementById('cursor');
-
-    // track cursor
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-
-    // pulse on click and create particles
-    heartWrap.addEventListener('click', (e) => {
-      // pulse CSS
-      heartWrap.classList.remove('pulse');
-      void heartWrap.offsetWidth; // reflow to restart animation
-      heartWrap.classList.add('pulse');
-
-      // generate particle burst
-      createBurst(e.clientX, e.clientY, 18);
-    });
-
-    // Create heart emoji/element particles that float outwards
-    function createBurst(x,y,count=12){
-      for(let i=0;i<count;i++){
-        setTimeout(()=> spawnParticle(x,y), i*18);
-      }
-    }
-
-    function spawnParticle(x,y){
-      const p = document.createElement('div');
-      p.className = 'particle';
-      // choose an emoji or small SVG heart shape for variety
-      const emojis = ['❤','💖','💘','❣️','💕','💓'];
-      p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-
-      // style
-      p.style.left = x + 'px';
-      p.style.top  = y + 'px';
-      p.style.fontSize = `${12 + Math.floor(Math.random()*18)}px`;
-      p.style.opacity = '1';
-      p.style.transform = `translate(-50%,-50%) scale(${0.7 + Math.random()*0.9}) rotate(${Math.random()*360}deg)`;
-
-      document.body.appendChild(p);
-
-      // trajectory
-      const angle = Math.random()*Math.PI*2;
-      const distance = 80 + Math.random()*260;
-      const destX = x + Math.cos(angle)*distance;
-      const destY = y + Math.sin(angle)*(distance*0.6) - 60;
-
-      // animate with JS for smoother control
-      p.animate([
-        { transform: p.style.transform, opacity:1 },
-        { transform: `translate(${destX - x}px, ${destY - y}px) scale(0.6) rotate(${Math.random()*720}deg)`, opacity:0 }
-      ], {
-        duration: 900 + Math.random()*800,
-        easing: 'cubic-bezier(.18,.9,.32,1)'
-      });
-
-      // cleanup
-      setTimeout(()=> {
-        if(p.parentNode) p.parentNode.removeChild(p);
-      }, 1800);
-    }
-
-    // gentle ambient particles (subtle)
-    setInterval(() => {
-      if(Math.random() > 0.8) {
-        const x = window.innerWidth * Math.random();
-        const y = window.innerHeight * Math.random();
-        spawnParticle(x,y);
-      }
-    }, 700);
-
-    // accessibility: keyboard activation (press Enter or Space)
-    heartWrap.setAttribute('tabindex','0');
-    heartWrap.addEventListener('keydown', (ev) => {
-      if(ev.key === 'Enter' || ev.key === ' ') {
-        ev.preventDefault();
-        const rect = heartWrap.getBoundingClientRect();
-        createBurst(rect.left + rect.width/2, rect.top + rect.height/2, 16);
-        heartWrap.classList.remove('pulse'); void heartWrap.offsetWidth; heartWrap.classList.add('pulse');
-      }
-    });
-
-  })();
-</script>
 </body>
 </html>
