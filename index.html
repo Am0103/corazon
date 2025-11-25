@@ -9,19 +9,28 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             height: 100vh;
             background: linear-gradient(180deg, #1a1a1a, #000);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
+            padding-top: 40px;
         }
 
         h1 {
-            font-size: 40px;
-            margin-bottom: 20px;
+            font-size: 38px;
+            margin-bottom: 50px; /* SEPARACIÓN DEL CORAZÓN */
             text-shadow: 0 0 15px red;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji {
+            font-size: 40px;
+            text-shadow: 0 0 10px red;
         }
 
         .heart {
@@ -33,6 +42,7 @@
             animation: beat 0.8s infinite ease-in-out;
             border-radius: 25px;
             box-shadow: 0 0 25px red;
+            margin-top: 10px; /* MÁS ESPACIO DEL TÍTULO */
         }
 
         .heart::before,
@@ -64,7 +74,7 @@
         .frase {
             margin-top: 40px;
             font-size: 22px;
-            width: 60%;
+            width: 70%;
             min-height: 60px;
             opacity: 0;
             transition: opacity 1s ease;
@@ -73,7 +83,11 @@
 </head>
 <body>
 
-    <h1>💖 Corazón de tu Ángel 💖</h1>
+    <h1>
+        <span class="emoji">💖</span>
+        Corazón de tu Ángel
+        <span class="emoji">💖</span>
+    </h1>
 
     <div class="heart"></div>
 
@@ -96,10 +110,10 @@
         const fraseEl = document.getElementById("frase");
 
         function cambiarFrase() {
-            fraseEl.style.opacity = 0; // Oculta
+            fraseEl.style.opacity = 0;
             setTimeout(() => {
                 fraseEl.textContent = frases[index];
-                fraseEl.style.opacity = 1; // Muestra
+                fraseEl.style.opacity = 1;
                 index = (index + 1) % frases.length;
             }, 1000);
         }
