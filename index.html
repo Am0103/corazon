@@ -3,60 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corazón de tu ángel</title>
+    <title>Corazón de tu Ángel</title>
     <style>
         body {
+            margin: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(to bottom, #111, #333);
-            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #1a1a1a, #000);
             color: white;
+            font-family: Arial, sans-serif;
             text-align: center;
         }
 
         h1 {
+            font-size: 40px;
             margin-bottom: 20px;
-            font-size: 32px;
-            text-shadow: 0 0 10px red;
-        }
-
-        p {
-            font-size: 20px;
-            margin-top: 20px;
-            max-width: 400px;
+            text-shadow: 0 0 15px red;
         }
 
         .heart {
-            width: 140px;
-            height: 140px;
+            width: 150px;
+            height: 150px;
             position: relative;
             background: red;
             transform: rotate(-45deg);
             animation: beat 0.8s infinite ease-in-out;
-            border-radius: 20px;
-            box-shadow: 0 0 20px red;
+            border-radius: 25px;
+            box-shadow: 0 0 25px red;
         }
 
         .heart::before,
         .heart::after {
             content: "";
-            width: 140px;
-            height: 140px;
+            width: 150px;
+            height: 150px;
             background: red;
             position: absolute;
             border-radius: 50%;
         }
 
         .heart::before {
-            top: -70px;
+            top: -75px;
             left: 0;
         }
 
         .heart::after {
-            left: 70px;
+            left: 75px;
             top: 0;
         }
 
@@ -65,20 +60,53 @@
             50% { transform: scale(1.2) rotate(-45deg); }
             100% { transform: scale(1) rotate(-45deg); }
         }
+
+        .frase {
+            margin-top: 40px;
+            font-size: 22px;
+            width: 60%;
+            min-height: 60px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
     </style>
 </head>
 <body>
 
-    <h1>💖 Corazón de tu ángel 💖</h1>
+    <h1>💖 Corazón de tu Ángel 💖</h1>
 
     <div class="heart"></div>
 
-    <p>
-        Este corazón late por ti…  
-        porque eres especial,  
-        porque te pienso,  
-        porque eres mi razón bonita del día.
-    </p>
+    <p class="frase" id="frase"></p>
+
+    <script>
+        const frases = [
+            "Eres la razón por la que mi corazón late más fuerte.",
+            "Desde que llegaste, todo se siente un poquito más bonito.",
+            "Pienso en ti… y mi día automáticamente mejora.",
+            "Eres ese ‘algo’ que no sabía que me hacía falta.",
+            "Mi corazón tiene dueño… y ese dueño eres tú.",
+            "Si supieras lo especial que eres para mí… sonreirías ahora mismo.",
+            "Tu nombre y mi sonrisa siempre van juntos.",
+            "Contigo todo es más suave, más bonito, más real."
+        ];
+
+        let index = 0;
+
+        const fraseEl = document.getElementById("frase");
+
+        function cambiarFrase() {
+            fraseEl.style.opacity = 0; // Oculta
+            setTimeout(() => {
+                fraseEl.textContent = frases[index];
+                fraseEl.style.opacity = 1; // Muestra
+                index = (index + 1) % frases.length;
+            }, 1000);
+        }
+
+        cambiarFrase();
+        setInterval(cambiarFrase, 3000);
+    </script>
 
 </body>
 </html>
