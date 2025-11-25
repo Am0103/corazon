@@ -1,813 +1,387 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💖 Para mi amor - Mi corazón late por ti</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Corazón Glossy  — Mejorado</title>
+<style>
+  :root{
+    --bg1:#111216;
+    --bg2:#2a2a2f;
+    --accent:#ff2d55;
+    --accent-dark:#b3002b;
+  }
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(45deg, #ff0844, #ffb199, #ff6b9d, #c44569, #6c5ce7, #a29bfe, #fd79a8, #e84393);
-            background-size: 400% 400%;
-            animation: megaGradient 6s ease infinite;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: none;
-        }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 15% 10%, rgba(255,30,120,0.06), transparent),
+                linear-gradient(180deg,var(--bg1), #121217 60%, #0e0e10);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
 
-        @keyframes megaGradient {
-            0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
-            25% { background-position: 100% 0%; filter: hue-rotate(90deg); }
-            50% { background-position: 100% 100%; filter: hue-rotate(180deg); }
-            75% { background-position: 0% 100%; filter: hue-rotate(270deg); }
-            100% { background-position: 0% 50%; filter: hue-rotate(360deg); }
-        }
+  /* Layout */
+  .stage{
+    width: min(920px, 94vw);
+    height: min(740px, 86vh);
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:1200px;
+  }
 
-        .container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-        }
+  /* soft backdrop texture using your generated image (optional) */
+  .backdrop {
+    position:absolute;
+    inset:0;
+    background: radial-gradient( circle at 30% 20%, rgba(255,40,120,0.04), transparent 5%),
+                radial-gradient(circle at 80% 80%, rgba(30,150,255,0.03), transparent 10%);
+    z-index:0;
+    pointer-events:none;
+  }
 
-        /* Corazón principal REAL como la imagen */
-        .heart {
-            position: relative;
-            width: 200px;
-            height: 180px;
-            animation: 
-                uniqueHeartbeat 3s ease-in-out infinite,
-                float3D 4s ease-in-out infinite,
-                prismaticShift 5s linear infinite;
-            filter: 
-                drop-shadow(0 0 60px rgba(255, 107, 157, 1))
-                drop-shadow(0 0 120px rgba(255, 20, 147, 0.8))
-                drop-shadow(0 0 180px rgba(138, 43, 226, 0.6));
-            z-index: 10;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
+  /* show the generated image faintly as texture - optional */
+  .texture {
+    position:absolute;
+    inset:0;
+    background-image: url('/mnt/data/Create_a_highly_polished,_glossy_red_heart_icon_wi.png');
+    background-size: cover;
+    background-position:center;
+    opacity:0.06; /* subtle */
+    filter: blur(6px) saturate(0.8);
+    z-index:0;
+    pointer-events:none;
+  }
 
-        /* Forma REAL del corazón */
-        .heart::before,
-        .heart::after {
-            content: '';
-            width: 100px;
-            height: 160px;
-            position: absolute;
-            left: 50px;
-            top: 0;
-            background: linear-gradient(45deg, 
-                #ff1744, #f50057, #e91e63, #9c27b0, 
-                #673ab7, #3f51b5, #2196f3, #00bcd4);
-            background-size: 400% 400%;
-            animation: gradientSpin 2s ease infinite;
-            border-radius: 50px 50px 0 0;
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-            box-shadow: 
-                0 0 80px rgba(255, 23, 68, 0.8),
-                inset 0 0 30px rgba(255, 255, 255, 0.3);
-        }
+  /* Center card that holds the heart */
+  .card{
+    width: 760px;
+    max-width: 94%;
+    height:620px;
+    border-radius:20px;
+    display:grid;
+    place-items:center;
+    position:relative;
+    z-index:10;
+    transform-style:preserve-3d;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
+    box-shadow:
+      0 10px 40px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.02);
+    overflow:visible;
+  }
 
-        .heart::after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
-        }
+  /* Glossy heart container */
+  .heart-wrap{
+    width: 420px;
+    height:420px;
+    display:grid;
+    place-items:center;
+    transform-style:preserve-3d;
+    cursor:pointer;
+  }
 
-        @keyframes gradientSpin {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+  /* Floating & subtle 3D */
+  .heart-wrap {
+    animation: float3 6s ease-in-out infinite;
+  }
+  @keyframes float3 {
+    0%{ transform: translateZ(0) translateY(0) rotateX(0) }
+    50%{ transform: translateZ(20px) translateY(-10px) rotateX(1deg) }
+    100%{ transform: translateZ(0) translateY(0) rotateX(0) }
+  }
 
-        /* Capas adicionales del corazón */
-        .heart-layer-1,
-        .heart-layer-2,
-        .heart-layer-3 {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            animation: layerRotate 8s linear infinite;
-        }
+  /* SVG heart styles */
+  svg.heart-svg{
+    width:100%;
+    height:100%;
+    display:block;
+    transform: translateZ(40px) rotateX(2deg);
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+  }
 
-        .heart-layer-1 {
-            width: 200px;
-            height: 200px;
-            background: conic-gradient(
-                from 0deg,
-                transparent 0deg,
-                rgba(255, 107, 157, 0.3) 60deg,
-                transparent 120deg,
-                rgba(255, 20, 147, 0.3) 180deg,
-                transparent 240deg,
-                rgba(138, 43, 226, 0.3) 300deg,
-                transparent 360deg
-            );
-            animation-duration: 10s;
-        }
+  /* highlight gloss overlay for more shine */
+  .gloss {
+    mix-blend-mode: screen;
+    opacity:0.95;
+  }
 
-        .heart-layer-2 {
-            width: 140px;
-            height: 140px;
-            background: conic-gradient(
-                from 45deg,
-                transparent 0deg,
-                rgba(196, 69, 105, 0.4) 90deg,
-                transparent 180deg,
-                rgba(108, 92, 231, 0.4) 270deg,
-                transparent 360deg
-            );
-            animation-duration: 15s;
-            animation-direction: reverse;
-        }
+  /* rim/neon glow */
+  .rim {
+    filter: drop-shadow(0 6px 18px rgba(255,80,110,0.18)) drop-shadow(0 0 36px rgba(255,60,120,0.12));
+  }
 
-        .heart-layer-3 {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(
-                circle,
-                rgba(255, 255, 255, 0.6) 20%,
-                rgba(255, 107, 157, 0.5) 50%,
-                transparent 80%
-            );
-            animation-duration: 5s;
-        }
+  /* small label under heart */
+  .label{
+    position:absolute;
+    bottom:28px;
+    text-align:center;
+    font-weight:700;
+    letter-spacing:0.6px;
+    color:rgba(255,255,255,0.9);
+    text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    font-size:1.05rem;
+    z-index:30;
+  }
 
-        /* Elementos geométricos internos del corazón */
-        .geometric-heart {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 120px;
-        }
+  /* pulse animation invoked via JS or :active */
+  .pulse {
+    animation: heartPulse 560ms cubic-bezier(.2,.9,.3,1);
+  }
+  @keyframes heartPulse {
+    0% { transform: scale(1) translateZ(0) }
+    30% { transform: scale(1.18) translateZ(40px) }
+    60% { transform: scale(0.96) translateZ(10px) }
+    100% { transform: scale(1) translateZ(0) }
+  }
 
-        .diamond {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: linear-gradient(45deg, #fff, #ff6b9d, #c44569);
-            transform: rotate(45deg);
-            animation: diamondSpin 4s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-        }
+  /* tiny heart particles */
+  .particle{
+    position:fixed;
+    pointer-events:none;
+    z-index:9999;
+    will-change: transform, opacity;
+    font-size: 18px;
+    opacity:0;
+    transform-origin:center;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.55);
+  }
 
-        .diamond:nth-child(1) { top: 25px; left: 62px; animation-delay: 0s; }
-        .diamond:nth-child(2) { top: 45px; left: 35px; animation-delay: 0.5s; }
-        .diamond:nth-child(3) { top: 45px; right: 35px; animation-delay: 1s; }
-        .diamond:nth-child(4) { top: 65px; left: 62px; animation-delay: 1.5s; }
+  /* custom cursor */
+  .custom-cursor {
+    position:fixed;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.95), rgba(255,255,255,0.5) 10%, transparent 40%);
+    box-shadow: 0 0 10px rgba(255,50,110,0.2);
+    transform: translate(-50%,-50%) scale(0.9);
+    pointer-events:none;
+    z-index:99999;
+    mix-blend-mode: screen;
+  }
 
-        /* Hexágonos decorativos del corazón */
-        .hexagon {
-            position: absolute;
-            width: 12px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.4);
-            margin: 5px 0;
-            transform: rotate(30deg);
-            animation: hexagonFloat 6s ease-in-out infinite;
-        }
-
-        .hexagon:before,
-        .hexagon:after {
-            content: "";
-            position: absolute;
-            width: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-        }
-
-        .hexagon:before {
-            bottom: 100%;
-            border-bottom: 5px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .hexagon:after {
-            top: 100%;
-            border-top: 5px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .hex-1 { top: 15px; left: 15px; animation-delay: 0s; }
-        .hex-2 { top: 15px; right: 15px; animation-delay: 1s; }
-        .hex-3 { bottom: 15px; left: 30px; animation-delay: 2s; }
-        .hex-4 { bottom: 15px; right: 30px; animation-delay: 3s; }
-
-        @keyframes crystalPulse {
-            0%, 100% { 
-                filter: blur(1px) brightness(1);
-                transform: translateX(-50%) scale(1);
-            }
-            50% { 
-                filter: blur(0px) brightness(1.5);
-                transform: translateX(-50%) scale(1.1);
-            }
-        }
-
-        @keyframes geometricShift {
-            0%, 100% { 
-                border-radius: 87.5px 87.5px 0 0;
-                transform: scale(1) rotateZ(0deg);
-            }
-            33% { 
-                border-radius: 50px 87.5px 20px 0;
-                transform: scale(1.05) rotateZ(2deg);
-            }
-            66% { 
-                border-radius: 87.5px 50px 0 20px;
-                transform: scale(1.05) rotateZ(-2deg);
-            }
-        }
-
-        @keyframes layerRotate {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes diamondSpin {
-            0%, 100% { 
-                transform: rotate(45deg) scale(1);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            }
-            50% { 
-                transform: rotate(225deg) scale(1.2);
-                box-shadow: 0 0 40px rgba(255, 107, 157, 1);
-            }
-        }
-
-        @keyframes hexagonFloat {
-            0%, 100% { 
-                transform: rotate(30deg) translateY(0px);
-                opacity: 0.6;
-            }
-            50% { 
-                transform: rotate(210deg) translateY(-20px);
-                opacity: 1;
-            }
-        }
-
-        @keyframes uniqueHeartbeat {
-            0%, 100% { 
-                transform: scale(1) rotateY(0deg) rotateX(0deg); 
-                filter: brightness(1) contrast(1);
-            }
-            20% { 
-                transform: scale(1.15) rotateY(5deg) rotateX(3deg); 
-                filter: brightness(1.3) contrast(1.2);
-            }
-            40% { 
-                transform: scale(1.05) rotateY(-3deg) rotateX(-2deg); 
-                filter: brightness(1.1) contrast(1.1);
-            }
-            60% { 
-                transform: scale(1.25) rotateY(8deg) rotateX(5deg); 
-                filter: brightness(1.5) contrast(1.3);
-            }
-            80% { 
-                transform: scale(1.02) rotateY(-2deg) rotateX(-1deg); 
-                filter: brightness(1.1) contrast(1.05);
-            }
-        }
-
-        @keyframes prismaticShift {
-            0% { filter: hue-rotate(0deg) saturate(1) brightness(1); }
-            25% { filter: hue-rotate(90deg) saturate(1.3) brightness(1.2); }
-            50% { filter: hue-rotate(180deg) saturate(1.5) brightness(1.1); }
-            75% { filter: hue-rotate(270deg) saturate(1.3) brightness(1.2); }
-            100% { filter: hue-rotate(360deg) saturate(1) brightness(1); }
-        }
-
-        /* Frases flotantes MEJORADAS */
-        .floating-phrase {
-            position: absolute;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(255, 20, 147, 0.6),
-                0 0 30px rgba(138, 43, 226, 0.4);
-            white-space: nowrap;
-            opacity: 0;
-            animation: megaFloat 8s ease-in-out infinite;
-            z-index: 5;
-            transform-style: preserve-3d;
-        }
-
-        @keyframes megaFloat {
-            0% { 
-                opacity: 0; 
-                transform: translateY(100px) scale(0.5) rotateX(90deg); 
-            }
-            15% { 
-                opacity: 1; 
-                transform: translateY(0px) scale(1.2) rotateX(0deg); 
-            }
-            85% { 
-                opacity: 1; 
-                transform: translateY(-80px) scale(1.5) rotateX(-10deg); 
-            }
-            100% { 
-                opacity: 0; 
-                transform: translateY(-200px) scale(0.8) rotateX(-90deg); 
-            }
-        }
-
-        /* Posiciones dinámicas */
-        .phrase-1 { top: 15%; left: 5%; animation-delay: 0s; }
-        .phrase-2 { top: 25%; right: 10%; animation-delay: 1s; }
-        .phrase-3 { bottom: 35%; left: 15%; animation-delay: 2s; }
-        .phrase-4 { bottom: 20%; right: 5%; animation-delay: 3s; }
-        .phrase-5 { top: 45%; left: 2%; animation-delay: 4s; }
-        .phrase-6 { top: 55%; right: 15%; animation-delay: 5s; }
-        .phrase-7 { top: 10%; left: 55%; animation-delay: 1.5s; }
-        .phrase-8 { bottom: 10%; left: 45%; animation-delay: 2.5s; }
-        .phrase-9 { top: 35%; left: 75%; animation-delay: 3.5s; }
-        .phrase-10 { bottom: 45%; right: 25%; animation-delay: 4.5s; }
-
-        /* Partículas ESPECTACULARES */
-        .heart-particle {
-            position: absolute;
-            width: 30px;
-            height: 27px;
-            opacity: 0.9;
-            animation: superParticle 6s linear infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.8));
-        }
-
-        .heart-particle::before,
-        .heart-particle::after {
-            content: '';
-            width: 15px;
-            height: 24px;
-            position: absolute;
-            left: 7.5px;
-            top: 0;
-            background: linear-gradient(45deg, #ff4081, #e91e63, #9c27b0);
-            border-radius: 7.5px 7.5px 0 0;
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-            animation: particleGlow 1s ease-in-out infinite alternate;
-        }
-
-        .heart-particle::after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
-        }
-
-        @keyframes particleGlow {
-            from { box-shadow: 0 0 5px rgba(255, 64, 129, 0.5); }
-            to { box-shadow: 0 0 20px rgba(255, 64, 129, 1); }
-        }
-
-        @keyframes superParticle {
-            0% {
-                transform: translateY(120vh) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.9;
-                transform: translateY(100vh) rotate(36deg) scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(50vh) rotate(180deg) scale(1.2);
-            }
-            90% {
-                opacity: 0.9;
-                transform: translateY(10vh) rotate(324deg) scale(0.8);
-            }
-            100% {
-                transform: translateY(-20vh) rotate(360deg) scale(0.3);
-                opacity: 0;
-            }
-        }
-
-        /* Efectos de brillo MEGA */
-        .mega-glow {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, 
-                rgba(255, 20, 147, 0.4) 0%, 
-                rgba(138, 43, 226, 0.3) 30%,
-                rgba(75, 0, 130, 0.2) 60%,
-                transparent 100%);
-            animation: megaPulse 3s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        @keyframes megaPulse {
-            0%, 100% { 
-                transform: scale(0.8) rotate(0deg); 
-                opacity: 0.6; 
-            }
-            50% { 
-                transform: scale(1.5) rotate(180deg); 
-                opacity: 1; 
-            }
-        }
-
-        /* Texto central del corazón */
-        .heart-text {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-align: center;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 1),
-                0 0 40px rgba(255, 20, 147, 0.8),
-                0 0 60px rgba(138, 43, 226, 0.6);
-            z-index: 20;
-            animation: crystallineGlow 3s ease-in-out infinite alternate;
-            background: linear-gradient(45deg, #fff, #ff6b9d, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @keyframes crystallineGlow {
-            from { 
-                transform: translate(-50%, -50%) scale(1);
-                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-            }
-            to { 
-                transform: translate(-50%, -50%) scale(1.08);
-                filter: drop-shadow(0 0 25px rgba(255, 107, 157, 1));
-            }
-        }
-
-        /* Cursor personalizado */
-        .custom-cursor {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            animation: cursorPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes cursorPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.5); }
-        }
-
-        /* Explosión de partículas */
-        .explosion-particle {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #ff4081, #e91e63);
-            border-radius: 50%;
-            animation: explode 2s ease-out forwards;
-        }
-
-        @keyframes explode {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(3) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        /* Responsive MEJORADO */
-        @media (max-width: 768px) {
-            .heart {
-                width: 150px;
-                height: 135px;
-            }
-            
-            .heart::before,
-            .heart::after {
-                width: 75px;
-                height: 120px;
-                left: 37.5px;
-            }
-            
-            .heart::after {
-                left: 0;
-            }
-            
-            .floating-phrase {
-                font-size: 1.2rem;
-            }
-            
-            .heart-text {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+  /* responsive adjustments */
+  @media (max-width:640px){
+    .card{ height:86vh; border-radius:16px}
+    .heart-wrap{ width:320px; height:320px }
+    .label{ font-size:0.95rem }
+  }
+</style>
 </head>
 <body>
-    <div class="custom-cursor" id="cursor"></div>
-    
-    <div class="container">
-        <!-- Efecto de brillo MEGA -->
-        <div class="mega-glow"></div>
-        
-        <!-- Corazón principal REAL -->
-        <div class="heart" id="mainHeart">
-            <!-- Capas rotatorias -->
-            <div class="heart-layer-1"></div>
-            <div class="heart-layer-2"></div>
-            <div class="heart-layer-3"></div>
-            
-            <!-- Elementos geométricos -->
-            <div class="geometric-heart">
-                <div class="diamond"></div>
-                <div class="diamond"></div>
-                <div class="diamond"></div>
-                <div class="diamond"></div>
-                
-                <div class="hexagon hex-1"></div>
-                <div class="hexagon hex-2"></div>
-                <div class="hexagon hex-3"></div>
-                <div class="hexagon hex-4"></div>
-            </div>
-            
-            <div class="heart-text">💖<br><span style="font-size: 1.5rem;">Para ti</span></div>
-        </div>
-        
-        <!-- Frases flotantes ROMÁNTICAS -->
-        <div class="floating-phrase phrase-1">💕 Eres el amor de mi vida</div>
-        <div class="floating-phrase phrase-2">✨ Mi corazón late solo por ti</div>
-        <div class="floating-phrase phrase-3">🌟 Eres mi estrella más brillante</div>
-        <div class="floating-phrase phrase-4">💖 Te amo más cada día</div>
-        <div class="floating-phrase phrase-5">🌈 Tú coloreas mi mundo</div>
-        <div class="floating-phrase phrase-6">⭐ Eres mi universo entero</div>
-        <div class="floating-phrase phrase-7">💝 Mi alma gemela</div>
-        <div class="floating-phrase phrase-8">🦋 Contigo puedo volar</div>
-        <div class="floating-phrase phrase-9">🔥 Eres mi pasión</div>
-        <div class="floating-phrase phrase-10">🌺 Mi jardín de felicidad</div>
+  <div class="stage" aria-hidden="false">
+    <div class="texture" aria-hidden="true"></div>
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <div class="card" role="region" aria-label="Corazón brillante">
+      <div class="heart-wrap" id="heartWrap" title="Haz clic para enviar amor">
+        <!-- SVG heart: multiple layers for main color, glossy highlight, rim and inner shine -->
+        <svg class="heart-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="false" role="img">
+          <defs>
+            <!-- main gradient -->
+            <linearGradient id="gMain" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#ff6b81"/>
+              <stop offset="35%" stop-color="#ff2d55"/>
+              <stop offset="70%" stop-color="#c3103b"/>
+              <stop offset="100%" stop-color="#8b0024"/>
+            </linearGradient>
+
+            <!-- glossy overlay -->
+            <linearGradient id="gGloss" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="rgba(255,255,255,0.95)"/>
+              <stop offset="30%" stop-color="rgba(255,255,255,0.65)"/>
+              <stop offset="60%" stop-color="rgba(255,255,255,0.12)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+            </linearGradient>
+
+            <!-- inner highlight -->
+            <radialGradient id="gInner" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="rgba(255,200,200,0.9)"/>
+              <stop offset="40%" stop-color="rgba(255,140,150,0.55)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+            </radialGradient>
+
+            <!-- rim gradient for neon-ish edge -->
+            <linearGradient id="gRim" x1="0" x2="1">
+              <stop offset="0%" stop-color="#fff2" />
+              <stop offset="30%" stop-color="#ff6b9d7a" />
+              <stop offset="100%" stop-color="#4ad3ff22" />
+            </linearGradient>
+
+            <!-- subtle bevel filter -->
+            <filter id="bevel" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
+              <feOffset in="blur" dx="0" dy="6" result="offsetBlur"/>
+              <feSpecularLighting in="blur" surfaceScale="6" specularConstant="0.7" specularExponent="20" lighting-color="#fff" result="spec">
+                <fePointLight x="-200" y="-200" z="400"/>
+              </feSpecularLighting>
+              <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut"/>
+              <feMerge>
+                <feMergeNode in="offsetBlur"/>
+                <feMergeNode in="specOut"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <!-- soft inner shadow -->
+            <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feComponentTransfer in="SourceAlpha">
+                <feFuncA type="table" tableValues="1 0"/>
+              </feComponentTransfer>
+              <feGaussianBlur stdDeviation="6"/>
+              <feOffset dx="0" dy="6" result="offsetblur"/>
+              <feComposite operator="out" in2="SourceAlpha"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0
+                                                    0 0 0 0 0
+                                                    0 0 0 0 0
+                                                    0 0 0 0.6"/>
+              <feBlend mode="multiply"/>
+            </filter>
+
+            <!-- small glossy shine path for top-left -->
+            <linearGradient id="shine" x1="0" x2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Outer rim to mimic bevel + neon edge -->
+          <path class="rim" d="M256 472c-4.2 0-8.3-.6-12.3-1.8-28.2-7.9-111.8-36.4-161.6-122.3C35.8 245 194 108 256 56c62 52 220 189 173.9 291.9-49.8 85.9-133.4 114.4-161.6 122.3-4.0 1.2-8.1 1.8-12.3 1.8z"
+            fill="url(#gRim)" opacity="0.85" transform="translate(0,0) scale(0.98)"/>
+
+          <!-- base heart -->
+          <path d="M256 472c-4.2 0-8.3-.6-12.3-1.8-28.2-7.9-111.8-36.4-161.6-122.3C35.8 245 194 108 256 56c62 52 220 189 173.9 291.9-49.8 85.9-133.4 114.4-161.6 122.3-4.0 1.2-8.1 1.8-12.3 1.8z"
+            fill="url(#gMain)" filter="url(#bevel)"/>
+
+          <!-- inner subtle color -->
+          <path d="M256 432c-3.2 0-6.4-.4-9.4-1.2-21.6-6-85.4-26.3-123.5-88.6C67.8 240.6 199.6 132.9 256 94c56.6 38.9 188.2 146.6 132.8 248.1-38.1 62.3-101.9 82.6-123.5 88.6-3.0 .8-6.2 1.2-9.3 1.2z"
+            fill="url(#gInner)" opacity="0.28" />
+
+          <!-- glossy white highlight top-left -->
+          <path d="M150 140c40-46 102-36 140-12 12 7 36 28 56 50 18 20 34 44 36 68 2 22-6 44-24 64-26 29-68 46-108 48-42 2-84-12-118-40-26-22-40-52-36-90 4-44 36-86 74-96z"
+            fill="url(#gGloss)" class="gloss" opacity="0.95" />
+
+          <!-- small top-right reflection arc -->
+          <path d="M334 80c18 6 36 20 46 36 8 14 10 30 4 44-6 14-20 24-36 30-36 12-74 8-106-8-14-8-30-22-40-36 36-40 82-64 138-66z"
+            fill="rgba(255,255,255,0.18)" opacity="0.9"/>
+
+          <!-- two inner glossy streaks for "liquid" surface -->
+          <path d="M120 260c46-40 140-42 220-28 18 2 40 6 62 14 0 0-26-4-62 2-70 12-160 34-220 12z"
+            fill="rgba(255,255,255,0.06)" />
+
+          <path d="M120 220c40-36 140-30 200-18 0 0-40-12-82 0-56 16-108 36-118 18z"
+            fill="rgba(255,255,255,0.08)" opacity="0.9"/>
+
+          <!-- top-left carved glossy crescent -->
+          <path d="M178 100c22-20 80-32 130-6 0 0-40-8-86 4-46 12-58 30-44 34 14 4 30-8 44-18 8-6 10-8-44-14z"
+            fill="rgba(255,255,255,0.6)" opacity="0.28" />
+
+          <!-- gentle inner shadow for depth -->
+          <rect x="0" y="0" width="512" height="512" fill="transparent" filter="url(#innerShadow)" />
+
+        </svg>
+      </div>
+
+      <div class="label">💖 Para ti — Haz clic</div>
     </div>
+  </div>
 
-    <script>
-        // Crear partículas de corazones
-        function createHeartParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'heart-particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            particle.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(particle);
-            
-            // Eliminar partícula después de la animación
-            setTimeout(() => {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-            }, 6000);
-        }
+  <div class="custom-cursor" id="cursor"></div>
 
-        // Crear estrellas de fondo
-        function createStar() {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.width = star.style.height = Math.random() * 3 + 2 + 'px';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            document.body.appendChild(star);
-        }
+<script>
+  (function(){
+    const heartWrap = document.getElementById('heartWrap');
+    const cursor = document.getElementById('cursor');
 
-        // Crear múltiples estrellas
-        for (let i = 0; i < 50; i++) {
-            createStar();
-        }
+    // track cursor
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
 
-        // Crear partículas continuamente
-        setInterval(createHeartParticle, 800);
+    // pulse on click and create particles
+    heartWrap.addEventListener('click', (e) => {
+      // pulse CSS
+      heartWrap.classList.remove('pulse');
+      void heartWrap.offsetWidth; // reflow to restart animation
+      heartWrap.classList.add('pulse');
 
-        // Efecto de click en el corazón
-        document.querySelector('.heart').addEventListener('click', function() {
-            this.style.animation = 'heartbeat 0.5s ease-in-out, float 3s ease-in-out infinite';
-            
-            // Crear explosión de corazones pequeños
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => createHeartParticle(), i * 100);
-            }
-        });
+      // generate particle burst
+      createBurst(e.clientX, e.clientY, 18);
+    });
 
-        // Cambiar frases dinámicamente
-        const frases = [
-            "✨ Eres increíble",
-            "💫 Brillas como una estrella", 
-            "🌟 Tu sonrisa ilumina todo",
-            "💖 Eres especial",
-            "🌈 Coloreas mi mundo",
-            "⭐ Eres mi universo",
-            "💝 Tu amor es magia",
-            "🦋 Haces que vuele",
-            "🌸 Eres mi inspiración",
-            "💎 Vales más que diamantes",
-            "🌺 Florecen flores cuando sonríes",
-            "🎭 Eres arte en movimiento",
-            "🎵 Tu voz es melodía",
-            "🌙 Eres mi luna llena",
-            "☀️ Mi sol en días grises"
-        ];
+    // Create heart emoji/element particles that float outwards
+    function createBurst(x,y,count=12){
+      for(let i=0;i<count;i++){
+        setTimeout(()=> spawnParticle(x,y), i*18);
+      }
+    }
 
-        const frasesElements = document.querySelectorAll('.floating-phrase');
-        let fraseIndex = 0;
+    function spawnParticle(x,y){
+      const p = document.createElement('div');
+      p.className = 'particle';
+      // choose an emoji or small SVG heart shape for variety
+      const emojis = ['❤','💖','💘','❣️','💕','💓'];
+      p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
 
-        setInterval(() => {
-            frasesElements.forEach((element, index) => {
-                if (Math.random() > 0.7) { // 30% de probabilidad de cambiar
-                    element.textContent = frases[(fraseIndex + index) % frases.length];
-                }
-            });
-            fraseIndex = (fraseIndex + 1) % frases.length;
-        }, 3000);
+      // style
+      p.style.left = x + 'px';
+      p.style.top  = y + 'px';
+      p.style.fontSize = `${12 + Math.floor(Math.random()*18)}px`;
+      p.style.opacity = '1';
+      p.style.transform = `translate(-50%,-50%) scale(${0.7 + Math.random()*0.9}) rotate(${Math.random()*360}deg)`;
 
-        // Efecto de partículas al mover el mouse
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() > 0.95) { // 5% de probabilidad
-                const sparkle = document.createElement('div');
-                sparkle.innerHTML = '✨';
-                sparkle.style.position = 'absolute';
-                sparkle.style.left = e.clientX + 'px';
-                sparkle.style.top = e.clientY + 'px';
-                sparkle.style.pointerEvents = 'none';
-                sparkle.style.fontSize = '20px';
-                sparkle.style.animation = 'floatAndFade 2s ease-out forwards';
-                document.body.appendChild(sparkle);
-                
-                setTimeout(() => {
-                    if (sparkle.parentNode) {
-                        sparkle.parentNode.removeChild(sparkle);
-                    }
-                }, 2000);
-            }
-        });
+      document.body.appendChild(p);
 
-        // Cursor personalizado MEJORADO
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 15 + 'px';
-            cursor.style.top = e.clientY - 15 + 'px';
-            
-            // Crear mini partículas del cursor
-            if (Math.random() > 0.85) {
-                createMiniSparkle(e.clientX, e.clientY);
-            }
-        });
+      // trajectory
+      const angle = Math.random()*Math.PI*2;
+      const distance = 80 + Math.random()*260;
+      const destX = x + Math.cos(angle)*distance;
+      const destY = y + Math.sin(angle)*(distance*0.6) - 60;
 
-        function createMiniSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = ['✨', '💫', '⭐', '🌟'][Math.floor(Math.random() * 4)];
-            sparkle.style.position = 'absolute';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = '15px';
-            sparkle.style.animation = 'megaFloat 3s ease-out forwards';
-            sparkle.style.zIndex = '1000';
-            document.body.appendChild(sparkle);
-            
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
-                }
-            }, 3000);
-        }
+      // animate with JS for smoother control
+      p.animate([
+        { transform: p.style.transform, opacity:1 },
+        { transform: `translate(${destX - x}px, ${destY - y}px) scale(0.6) rotate(${Math.random()*720}deg)`, opacity:0 }
+      ], {
+        duration: 900 + Math.random()*800,
+        easing: 'cubic-bezier(.18,.9,.32,1)'
+      });
 
-        // Crear partículas ÉPICAS
-        function createSuperHeartParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'heart-particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 4 + 3) + 's';
-            particle.style.animationDelay = Math.random() * 2 + 's';
-            particle.style.transform = `scale(${Math.random() * 0.8 + 0.6})`;
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-            }, 8000);
-        }
+      // cleanup
+      setTimeout(()=> {
+        if(p.parentNode) p.parentNode.removeChild(p);
+      }, 1800);
+    }
 
-        // Explosión ÉPICA al hacer clic
-        document.getElementById('mainHeart').addEventListener('click', function(e) {
-            // Efecto de escala temporal
-            this.style.transform = 'scale(1.5)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 300);
-            
-            // Crear explosión de partículas
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    createExplosionParticle(e.target.getBoundingClientRect());
-                }, i * 50);
-            }
-            
-            // Crear ráfaga de corazones
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => createSuperHeartParticle(), i * 100);
-            }
-        });
+    // gentle ambient particles (subtle)
+    setInterval(() => {
+      if(Math.random() > 0.8) {
+        const x = window.innerWidth * Math.random();
+        const y = window.innerHeight * Math.random();
+        spawnParticle(x,y);
+      }
+    }, 700);
 
-        function createExplosionParticle(rect) {
-            const particle = document.createElement('div');
-            particle.className = 'explosion-particle';
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            particle.style.left = centerX + 'px';
-            particle.style.top = centerY + 'px';
-            
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Math.random() * 200 + 100;
-            const finalX = centerX + Math.cos(angle) * distance;
-            const finalY = centerY + Math.sin(angle) * distance;
-            
-            particle.style.setProperty('--final-x', finalX + 'px');
-            particle.style.setProperty('--final-y', finalY + 'px');
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-            }, 2000);
-        }
+    // accessibility: keyboard activation (press Enter or Space)
+    heartWrap.setAttribute('tabindex','0');
+    heartWrap.addEventListener('keydown', (ev) => {
+      if(ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        const rect = heartWrap.getBoundingClientRect();
+        createBurst(rect.left + rect.width/2, rect.top + rect.height/2, 16);
+        heartWrap.classList.remove('pulse'); void heartWrap.offsetWidth; heartWrap.classList.add('pulse');
+      }
+    });
 
-        // Crear partículas continuamente MÁS RÁPIDO
-        setInterval(createSuperHeartParticle, 400);
-
-        // Frases ÉPICAS dinámicas
-        const frasesEpicas = [
-            "✨ Eres absolutamente increíble",
-            "💫 Tu energía es contagiosa",
-            "🌟 Iluminas cada momento",
-            "💖 Eres pura magia",
-            "🌈 Pintas sonrisas en el cielo",
-            "⭐ Brillas más que las estrellas",
-            "💝 Tu alma es hermosa",
-            "🦋 Haces que todo vuele",
-            "🔥 Eres fuego y pasión",
-            "🌺 Florecen jardines a tu paso",
-            "💎 Vales más que todos los tesoros",
-            "🌙 Eres mi luna en la noche",
-            "☀️ Mi sol que nunca se oculta",
-            "🎵 Tu risa es la mejor melodía",
-            "🌪️ Eres tormenta de emociones"
-        ];
-
-        const frasesElements = document.querySelectorAll('.floating-phrase');
-        let fraseIndex = 0;
-
-        setInterval(() => {
-            frasesElements.forEach((element, index) => {
-                if (Math.random() > 0.6) {
-                    element.textContent = frasesEpicas[(fraseIndex + index) % frasesEpicas.length];
-                    element.style.color = `hsl(${Math.random() * 360}, 100%, 90%)`;
-                }
-            });
-            fraseIndex = (fraseIndex + 1) % frasesEpicas.length;
-        }, 2000);
-
-        // Audio visual (sin sonido real, solo efectos visuales)
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                document.body.style.filter = `brightness(${1 + Math.random() * 0.3})`;
-                setTimeout(() => {
-                    document.body.style.filter = '';
-                }, 100);
-            }
-        }, 1000);
-    </script>
+  })();
+</script>
 </body>
 </html>
-</html>
-
